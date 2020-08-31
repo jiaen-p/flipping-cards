@@ -1,0 +1,41 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="presentDoneAlert()">
+        <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>createCard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+
+<ion-content>
+  <ion-card *ngFor="let card of database.viewSet">
+    <ion-card-header>
+      <ion-card-title>{{ card.sideA }}</ion-card-title>
+      <ion-icon class="deleteIcon" (click)="presentAlertConfirm(card)" name="close-circle"></ion-icon>
+    </ion-card-header>
+    <ion-card-content>{{ card.sideB }}</ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-card>
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input [(ngModel)]="sideA"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea [(ngModel)]="sideB" autoGrow=true></ion-textarea>
+    </ion-item>
+    <ion-button expand="block" (click)="addCard()">Add</ion-button>
+  </ion-card>
+
+</ion-footer>

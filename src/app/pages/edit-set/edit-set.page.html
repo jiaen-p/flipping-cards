@@ -1,0 +1,32 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button (click)="editSet()">
+        <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>editSet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Set title</ion-label>
+    <ion-input [(ngModel)]="set.title" #autofocus></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Choose labels</ion-label>
+    <ion-select multiple="true" cancelText="Dismiss" okText="Done" [(ngModel)]="labels">
+      <ion-select-option  *ngFor="let label of database.labels" [value]="label">{{ label }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-button expand="block" routerLink="/create-label">create label</ion-button>
+</ion-content>
+
+<ion-footer >
+  <ion-button expand="block" (click)="addCards()">Add more cards</ion-button>
+  <ion-button expand="full" (click)="editSet()">save</ion-button>
+</ion-footer>

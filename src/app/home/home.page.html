@@ -1,20 +1,45 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" class="ion-no-border">
+  
   <ion-toolbar>
     <ion-title>
-      Blank
+      {{ database.db ? 'database created' : 'no sqlite available'}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-card *ngFor="let set of database.sets">
+    <ion-card-header>
+      <ion-card-title>{{set.title}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content >
+      <div *ngIf="set.labels.length!=0">
+        <ion-chip *ngFor="let label of set.labels.split(',')">
+          <ion-label>{{label}}</ion-label>
+        </ion-chip>
+      </div>
+    </ion-card-content>
+    <ion-grid class="edit">
+      <ion-icon name="create" (click)="editSet(set)"></ion-icon>
+      <ion-icon name="close" (click)="deleteSet(set)"></ion-icon>
+    </ion-grid>
+    <ion-button expand="block" (click)="viewSet(set.sets_id)">View set</ion-button>
+  </ion-card>
+
+  <ion-button expand="block" (click)="dropTable()">Truncate card table</ion-button>
+
+ 
+
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="danger">
+      <ion-icon name="add" size="large"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button data-desc="new label" routerLink="/create-label" size="large"><ion-icon name="bookmark" size="large"></ion-icon></ion-fab-button>
+      <ion-fab-button data-desc="new set" routerLink="/create-set" size="large"><ion-icon name="albums" size="large"></ion-icon></ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

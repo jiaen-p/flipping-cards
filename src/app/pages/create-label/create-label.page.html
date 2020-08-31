@@ -1,0 +1,24 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>create-label</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <h1>Available labels</h1>
+  <ion-chip *ngFor="let label of database.labels">
+    <ion-label class="label">{{ label }}</ion-label>
+    <ion-icon name="close-circle" (click)="deleteLabel(label)"></ion-icon>
+  </ion-chip>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-item>
+    <ion-label position="floating">New label</ion-label>
+    <ion-input [(ngModel)]="label" #autofocus></ion-input>
+  </ion-item>
+  <ion-button preventDefault="true" (click)="addLabel()" expand="block">Add label</ion-button>
+</ion-footer>
