@@ -3,7 +3,11 @@ ion-slides{
 }
 
 .showBtn{
+
     position: absolute;
     margin: 0 auto;
     bottom: 20px;
+}
+.card{
+    perspective: 1000px;
 }

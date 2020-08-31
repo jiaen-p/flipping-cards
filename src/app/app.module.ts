@@ -10,7 +10,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SQLite } from '@ionic-native/sqlite/ngx';
 import { SqliteServiceService } from './shared/sqlite-service.service';
-
+import { AndroidFullScreen } from '@ionic-native/android-full-screen/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -20,6 +21,8 @@ import { SqliteServiceService } from './shared/sqlite-service.service';
     SplashScreen,
     SQLite,
     SqliteServiceService,
+    AndroidFullScreen,
+    ScreenOrientation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
