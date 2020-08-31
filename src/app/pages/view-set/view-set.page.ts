@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SqliteServiceService } from 'src/app/shared/sqlite-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-set',
@@ -8,12 +9,12 @@ import { SqliteServiceService } from 'src/app/shared/sqlite-service.service';
 })
 export class ViewSetPage implements OnInit {
 
-  constructor(protected database:SqliteServiceService) { }
+  constructor(protected database:SqliteServiceService, private router:Router) { }
 
   ngOnInit() {
   }
 
   public startCards(){
-    
+    this.router.navigate(['/slides'])
   }
 }

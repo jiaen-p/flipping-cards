@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SqliteServiceService } from 'src/app/shared/sqlite-service.service';
 
 @Component({
   selector: 'app-slides',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SlidesPage implements OnInit {
 
-  constructor() { }
+  constructor(protected database:SqliteServiceService) { }
 
   ngOnInit() {
   }

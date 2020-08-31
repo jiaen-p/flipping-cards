@@ -1,9 +1,8 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>slides</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <ion-slides>
+    <ion-slide *ngFor="let card of database.viewSet">
+      <h1>{{card.sideA}}</h1>
+      <ion-button class="showBtn">Show answer</ion-button>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
