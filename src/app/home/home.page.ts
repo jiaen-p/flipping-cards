@@ -3,6 +3,7 @@ import { SqliteServiceService } from '../shared/sqlite-service.service';
 import { Card } from '../models/card';
 import { Sets } from '../models/sets';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -17,18 +18,15 @@ export class HomePage{
   public sets: Sets[] = []
 
   public labelSelect:string[] = []
-  constructor(public database: SqliteServiceService, private router:Router) {
+  constructor(public database: SqliteServiceService, private router:Router, public alert:AlertController) {
 
   }
-  // public getSets(){
-  //   this.database.getSets()
-  // }
+
 
   public getCards(){
     this.database.getCards()
     .then(v => {
       this.allCards = <Card[]>v
-      // console.log(JSON.stringify())
     })
     .catch(e => {
       null
@@ -50,5 +48,27 @@ export class HomePage{
     this.database.getSet(set_id).then(() => {
       this.router.navigate(['/view-set'], {queryParams: {set_id: set_id}})
     })
+  }
+
+  public async deleteAlert(set:Sets){
+    const alert = await this.alert.create({
+      header: 'Delete Set',
+      subHeader: 'Are you sure?',
+      message: 'You will lose all your cards assiotiated with this set',
+      buttons:[
+        {
+          text: 'No',
+          role: 'cancel'
+        },{
+          text: 'Yes',
+          role: 'delete',
+          handler: () => {
+            this.deleteSet(set)
+          }
+        }
+        
+      ]
+    })
+    await alert.present()
   }
 }

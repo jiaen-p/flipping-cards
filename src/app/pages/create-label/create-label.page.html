@@ -11,7 +11,7 @@
   <h1>Available labels</h1>
   <ion-chip *ngFor="let label of database.labels">
     <ion-label class="label">{{ label }}</ion-label>
-    <ion-icon name="close-circle" (click)="deleteLabel(label)"></ion-icon>
+    <ion-icon name="close-circle-outline" (click)="deleteLabel(label)"></ion-icon>
   </ion-chip>
 </ion-content>
 

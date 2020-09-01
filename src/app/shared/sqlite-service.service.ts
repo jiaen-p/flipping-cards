@@ -42,8 +42,6 @@ export class SqliteServiceService {
         this.getSets()
       })
 
-
-      
     })
 
   }
@@ -150,6 +148,7 @@ export class SqliteServiceService {
     })
     .catch(e => console.log(JSON.stringify(e)))
   }
+
   // delete set with set_id
   deleteSet(set_id:number){
     let sql = 'DELETE FROM sets WHERE sets_id = ?'
@@ -160,6 +159,25 @@ export class SqliteServiceService {
       console.log(JSON.stringify(r))
     })
     .catch(r => console.log(JSON.stringify(r)))
+  }
+
+  // update set after deleted a label
+  updateSetAfterDeleteLabel(label:string){
+    let sql = 'SELECT * FROM sets WHERE labels LIKE ?'
+    let params = [`%${label}%`]
+    return this.db.executeSql(sql,params)
+    .then(data => {
+      for (let i = 0; i < data.rows.length; i++) {
+        let set = new Sets
+        set = data.rows.item(i);
+        // do something with it
+        let label_1 = set.labels.split(',')
+        label_1.splice(label_1.indexOf(label), 1)
+        set.labels = label_1.toString()
+        this.updateSet(set)
+      }
+    })
+    .catch(e => console.log(JSON.stringify(e)))
   }
 
   // get all available labels
@@ -181,16 +199,21 @@ export class SqliteServiceService {
     .catch( e => console.log("err:", JSON.stringify(e)))
   }
 
-  setLabels(label:string[]){
-    let sql = 'INSERT OR REPLACE INTO label(label_id, label) VALUES(?,?)'
-    return this.db.executeSql(sql, [1, this.labels.concat(label).toString()])
-    .then(r => console.log("Inserted label",JSON.stringify(r)))
-    .catch(e => console.log(JSON.stringify(e)))
-  }
+  // adds new labels
+  // setLabels(label:string[]){
+  //   let sql = 'INSERT OR REPLACE INTO label(label_id, label) VALUES(?,?)'
+  //   return this.db.executeSql(sql, [1, this.labels.concat(label).toString()])
+  //   .then(r => console.log("Inserted label",JSON.stringify(r)))
+  //   .catch(e => console.log(JSON.stringify(e)))
+  // }
+
+  // adds new labels
   updateLabels(){
     let sql = 'INSERT OR REPLACE INTO label(label_id, label) VALUES(?,?)'
     return this.db.executeSql(sql,[1,this.labels.toString()])
     .then(r => null)
     .catch(e => console.log(JSON.stringify(e)))
   }
+
+  
 }

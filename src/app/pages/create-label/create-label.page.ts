@@ -45,11 +45,17 @@ export class CreateLabelPage implements OnInit {
     }, 100);
   }
 
-  public deleteLabel(label){
-    let ind = this.database.labels.indexOf(label)
-    this.database.labels.splice(ind,1)
-    this.database.updateLabels().then(r => {
-      this.getLabels()
+  public deleteLabel(label:string){
+    let ind = this.database.labels.indexOf(label.trim())
+    // find and update all sets that has that label
+    this.database.updateSetAfterDeleteLabel(label.trim())
+    .then(() => {
+
+      // update db
+      this.database.labels.splice(ind,1)
+      this.database.updateLabels().then(r => {
+        this.getLabels()
+      })
     })
   }
 

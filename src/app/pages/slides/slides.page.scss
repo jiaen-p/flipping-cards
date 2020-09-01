@@ -3,11 +3,49 @@ ion-slides{
 }
 
 .showBtn{
-
     position: absolute;
     margin: 0 auto;
     bottom: 20px;
+    width: 170px;
 }
 .card{
     perspective: 1000px;
+    width: 100%;
+    height: 100%;
+}
+.card-inner{
+    transition: transform 0.7s;
+    transform-style: preserve-3d;
+    width: 100%;
+    height: 100%;
+}
+.rotate{
+    transform: rotateY(180deg);
+}
+.front, .back{
+    position: absolute;
+    top: 30%;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+}
+.back{
+    transform: rotateY(180deg);
+}
+.icon{
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    font-size: x-large;
+}
+.progress{
+    position: absolute;
+    bottom: 0;
+}
+.end-slide{
+    flex-direction: column;
+}
+.icon-btn{
+    width: 130px;
+    margin: 10px auto;
 }

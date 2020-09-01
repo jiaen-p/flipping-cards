@@ -21,8 +21,8 @@
       </div>
     </ion-card-content>
     <ion-grid class="edit">
-      <ion-icon name="create" (click)="editSet(set)"></ion-icon>
-      <ion-icon name="close" (click)="deleteSet(set)"></ion-icon>
+      <ion-icon name="reader-outline" (click)="editSet(set)"></ion-icon>
+      <ion-icon name="close-circle-outline" (click)="deleteAlert(set)"></ion-icon>
     </ion-grid>
     <ion-button expand="block" (click)="viewSet(set.sets_id)">View set</ion-button>
   </ion-card>
@@ -38,8 +38,8 @@
       <ion-icon name="add" size="large"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button data-desc="new label" routerLink="/create-label" size="large"><ion-icon name="bookmark" size="large"></ion-icon></ion-fab-button>
-      <ion-fab-button data-desc="new set" routerLink="/create-set" size="large"><ion-icon name="albums" size="large"></ion-icon></ion-fab-button>
+      <ion-fab-button data-desc="new label" routerLink="/create-label" ><ion-icon name="bookmarks"></ion-icon></ion-fab-button>
+      <ion-fab-button data-desc="new set" routerLink="/create-set" ><ion-icon name="albums" ></ion-icon></ion-fab-button>
     </ion-fab-list>
   </ion-fab>
 </ion-content>

@@ -1,8 +1,24 @@
 <ion-content>
-  <ion-slides>
+  <ion-slides (ionSlideTransitionStart)="changeSlides()">
     <ion-slide *ngFor="let card of database.viewSet" class="card">
-      <h1>{{card.sideA}}</h1>
-      <ion-button expand="block" class="showBtn">Show answer</ion-button>
+      <div class="card-inner" [ngClass]="flip ? 'rotate' : ''">
+        <div class="front" >
+          <h1>{{card.sideA}}</h1>
+        </div>
+        <div class="back">
+          <p>{{card.sideB}}</p>
+        </div>
+      </div>
+      <ion-icon class="icon" name="shuffle" (click)="shuffleSet()"></ion-icon>
+      <ion-button expand="block" class="showBtn" (click)="flip = !flip">{{ flip ? 'go back' : 'Show answer'}}</ion-button>
+    </ion-slide>
+    <ion-slide class="end-slide">
+      <h2>You've reached the end</h2>
+      <br>
+      <ion-button fill="outline" class="icon-btn" color="danger" (click)="startOver()">start over</ion-button>
+      <ion-button fill="outline" class="icon-btn" color="medium" [routerLink]="['/create-card']" [queryParams]="{set_id:database.viewSet[0].sets_id}">add more</ion-button>
+      <ion-button fill="outline" class="icon-btn" color="success" [routerLink]="['/view-set']">exit</ion-button>
     </ion-slide>
   </ion-slides>
+  <ion-progress-bar class="progress" [value]="progress"></ion-progress-bar>
 </ion-content>

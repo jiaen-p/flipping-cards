@@ -19,7 +19,7 @@
   <ion-card *ngFor="let card of database.viewSet">
     <ion-card-header>
       <ion-card-title>{{ card.sideA }}</ion-card-title>
-      <ion-icon class="deleteIcon" (click)="presentAlertConfirm(card)" name="close-circle"></ion-icon>
+      <ion-icon class="deleteIcon" (click)="presentAlertConfirm(card)" name="close-circle-outline"></ion-icon>
     </ion-card-header>
     <ion-card-content>{{ card.sideB }}</ion-card-content>
   </ion-card>
