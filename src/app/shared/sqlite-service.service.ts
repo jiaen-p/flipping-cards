@@ -36,14 +36,12 @@ export class SqliteServiceService {
         'CREATE TABLE IF NOT EXISTS card ( card_id INTEGER PRIMARY KEY AUTOINCREMENT, sideA TEXT NOT NULL, sideB TEXT, sets_id INTEGER NOT NULL, CONSTRAINT fk_sets FOREIGN KEY (sets_id) REFERENCES sets(sets_id) ON DELETE CASCADE )',
         'CREATE TABLE IF NOT EXISTS label ( label_id INTEGER PRIMARY KEY AUTOINCREMENT, label TEXT NOT NULL)'
         ])
+        .then(() => {
+          this.getLabels()
+          this.getSets()
+        })
       })
-      .then(() => {
-        this.getLabels()
-        this.getSets()
-      })
-
     })
-
   }
 
 
@@ -68,6 +66,16 @@ export class SqliteServiceService {
     let sql = 'INSERT INTO card(sideA, sideB, sets_id) VALUES(?,?,?)'
     let params = [sideA, sideB, sets_id]
     return this.db.executeSql(sql, params).then(r => {return r}).catch(e => console.log(JSON.stringify(e)))
+  }
+
+  // update existing card using card_id
+  updateCard(card:Card){
+    let sql = 'UPDATE card SET sideA=?, sideB=? WHERE card_id=?'
+    let params = [card.sideA, card.sideB, card.card_id]
+    return this.db.executeSql(sql,params)
+    .then(r => {return r})
+    .then(() => this.getSet(card.sets_id))
+    .catch(e => console.log(JSON.stringify(e)))
   }
 
   // delete existing card using card_id
@@ -104,7 +112,7 @@ export class SqliteServiceService {
   getSets(){
     let result = []
     let sql = 'SELECT * FROM sets'
-    this.db.executeSql(sql,[])
+    return this.db.executeSql(sql,[])
     .then(data => {
       for (let i = 0; i < data.rows.length; i++) {
         let item = data.rows.item(i);
@@ -153,10 +161,9 @@ export class SqliteServiceService {
   deleteSet(set_id:number){
     let sql = 'DELETE FROM sets WHERE sets_id = ?'
     let params = [set_id]
-    this.db.executeSql(sql, params)
+    return this.db.executeSql(sql, params)
     .then(r => {
       this.getSets()
-      console.log(JSON.stringify(r))
     })
     .catch(r => console.log(JSON.stringify(r)))
   }
@@ -194,7 +201,11 @@ export class SqliteServiceService {
         set = item
         result.push(set);
       }
-      this.labels = <string[]>result[0]['label'].split(',')
+      if(result[0]['label'].length > 0 ){
+        this.labels = <string[]>result[0]['label'].split(',')
+      } else {
+        this.labels = []
+      }
     })
     .catch( e => console.log("err:", JSON.stringify(e)))
   }

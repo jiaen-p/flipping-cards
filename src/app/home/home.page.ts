@@ -3,7 +3,7 @@ import { SqliteServiceService } from '../shared/sqlite-service.service';
 import { Card } from '../models/card';
 import { Sets } from '../models/sets';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -11,17 +11,51 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage{
-
+  public selectedTag:string[] = []
   public allCards:Card[] = []
-  public setTitle:string = null
+  public searchTerm: string = ''
 
-  public sets: Sets[] = []
-
-  public labelSelect:string[] = []
-  constructor(public database: SqliteServiceService, private router:Router, public alert:AlertController) {
-
+  constructor(public database: SqliteServiceService, private router:Router, public alert:AlertController, public popover:PopoverController, private plt:Platform) {
+    
+  }
+  
+  public cancelTag(){
+    this.selectedTag = []
   }
 
+  public filterByTag(){
+    this.database.getSets().then(() => {
+      let filtered = []
+      this.database.sets.forEach(set => {
+        if(this.selectedTag.every(tag => set.labels.split(',').includes(tag))){
+          filtered.push(set)
+        }
+      })
+      this.database.sets = filtered
+    }) 
+  }
+  
+  
+  public filterByTitle(){
+    if(this.searchTerm.length == 0){
+      this.database.getSets()
+    }
+    this.database.sets = this.database.sets.filter((set) => {
+      return set.title.toLowerCase().indexOf(this.searchTerm.toLowerCase()) > -1;
+    })
+  }
+
+  ionViewWillEnter(){
+    this.plt.ready()
+    .then(() => {
+      this.database.getSets()
+    })
+    
+  }
+
+  ionViewDidLeave(){
+    this.searchTerm = ''
+  }
 
   public getCards(){
     this.database.getCards()
@@ -31,9 +65,6 @@ export class HomePage{
     .catch(e => {
       null
     })
-  }
-  public dropTable(){
-    this.database.deleteTable()
   }
 
   public deleteSet(set:Sets){
@@ -50,11 +81,12 @@ export class HomePage{
     })
   }
 
+  // alert
   public async deleteAlert(set:Sets){
     const alert = await this.alert.create({
       header: 'Delete Set',
       subHeader: 'Are you sure?',
-      message: 'You will lose all your cards assiotiated with this set',
+      message: 'You will <strong>lose all</strong> your cards associated with this set',
       buttons:[
         {
           text: 'No',

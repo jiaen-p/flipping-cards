@@ -14,7 +14,8 @@ export class ViewSetPage implements OnInit {
   ngOnInit() {
   }
 
-  public startCards(){
-    this.router.navigate(['/slides'])
+  public startCards(index:number = 0){
+    this.router.navigate(['/slides'], {queryParams:{startAt:index}})
   }
+
 }

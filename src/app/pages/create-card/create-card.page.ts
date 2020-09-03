@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SqliteServiceService } from 'src/app/shared/sqlite-service.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Card } from 'src/app/models/card';
-import { AlertController } from '@ionic/angular';
+import { AlertController, IonContent, IonTextarea } from '@ionic/angular';
 
 @Component({
   selector: 'app-create-card',
@@ -15,6 +15,10 @@ export class CreateCardPage implements OnInit {
   public sideB:string = null
   public set_id:number = null
   public edit: boolean = false
+  public card_id:number = null
+  public buttonText:string = 'add'
+  @ViewChild('autofocus', { static: false }) input:IonTextarea;
+  @ViewChild(IonContent) content:IonContent;
   constructor(protected database:SqliteServiceService, private route:ActivatedRoute, public alertController:AlertController, private router:Router) { 
     
   }
@@ -24,21 +28,53 @@ export class CreateCardPage implements OnInit {
       this.set_id = +params['set_id']
       this.edit = params['edit'] ? true : false
       this.getSet()
+      setTimeout(() => {
+        this.input.setFocus()
+      }, 150);
     })
   }
   public addCard(){
-    console.log("click")
-    if(this.sideA){
+    if(this.sideA && this.card_id == null){
+      // adding a new card
       this.database.insertCard(this.sideA, this.sideB, this.set_id)
       .then((r) => {
         this.sideA = null
         this.sideB = null
-        console.log("added to db", JSON.stringify(r))
       })
       .then(() => {
         this.getSet()
       })
+      .then(() => {
+        this.content.scrollToBottom().then(() => {this.input.setFocus()}).catch(e => console.log(e))
+      })
+    } else { 
+      // modify a existing card
+      let c = new Card
+      c = {
+        card_id:this.card_id,
+        sideA: this.sideA,
+        sideB: this.sideB,
+        sets_id: this.set_id
+      }
+      this.database.updateCard(c)
+      .then(() => {
+        this.sideA = null
+        this.sideB = null
+        this.card_id = null
+        this.getSet()
+      })
     }
+    this.buttonText = 'add'
+  }
+
+
+  public editCard(card:Card){
+    this.sideA = card.sideA;
+    this.sideB = card.sideB;
+    this.card_id = card.card_id;
+    this.buttonText = 'save changes'
+    this.input.setFocus()
+    
   }
 
   private getSet(){

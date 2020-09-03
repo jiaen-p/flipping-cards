@@ -20,6 +20,7 @@
     <ion-card-header>
       <ion-card-title>{{ card.sideA }}</ion-card-title>
       <ion-icon class="deleteIcon" (click)="presentAlertConfirm(card)" name="close-circle-outline"></ion-icon>
+      <ion-icon class="editIcon" name="reader-outline" (click)="editCard(card)"></ion-icon>
     </ion-card-header>
     <ion-card-content>{{ card.sideB }}</ion-card-content>
   </ion-card>
@@ -28,14 +29,14 @@
 <ion-footer class="ion-no-border">
   <ion-card>
     <ion-item>
-      <ion-label position="floating">Title</ion-label>
-      <ion-input [(ngModel)]="sideA"></ion-input>
+      <ion-label position="floating">Front side</ion-label>
+      <ion-textarea [(ngModel)]="sideA" autoGrow=true #autofocus></ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Description</ion-label>
+      <ion-label position="floating">Back side</ion-label>
       <ion-textarea [(ngModel)]="sideB" autoGrow=true></ion-textarea>
     </ion-item>
-    <ion-button expand="block" (click)="addCard()">Add</ion-button>
+    <ion-button expand="block" (click)="addCard()">{{ buttonText }}</ion-button>
   </ion-card>
 
 </ion-footer>

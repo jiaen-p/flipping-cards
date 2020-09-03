@@ -1,13 +1,26 @@
-<ion-header [translucent]="true" class="ion-no-border">
-  
-  <ion-toolbar>
-    <ion-title>
-      {{ database.db ? 'database created' : 'no sqlite available'}}
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-title>
+        Flipping cards
+      </ion-title>
+      <ion-item slot="end" lines="none" class="filterBtn">
+        <ion-select multiple="true" [(ngModel)]="selectedTag" (ionChange)="filterByTag()" (ionCancel)="cancelTag()" cancelText="Clear all" okText="filter">
+          <ion-label>Filter by tag</ion-label>
+          <ion-select-option *ngFor="let label of database.labels" >{{ label }}</ion-select-option>
+          <ion-select-option *ngIf="database.labels.length==0" disabled="true">No tags available</ion-select-option>
+        </ion-select>
+        <ion-icon name="filter"></ion-icon>
+      </ion-item>
+    </ion-toolbar>
+  </ion-header>
+  <ion-header class="ion-no-border searchbox">
+    <ion-toolbar>
+      <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="filterByTitle()" placeholder="Search by set title"></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+  
+
 
   <ion-card *ngFor="let set of database.sets">
     <ion-card-header>
@@ -27,8 +40,6 @@
     <ion-button expand="block" (click)="viewSet(set.sets_id)">View set</ion-button>
   </ion-card>
 
-  <ion-button expand="block" (click)="dropTable()">Truncate card table</ion-button>
-
  
 
 
@@ -38,8 +49,9 @@
       <ion-icon name="add" size="large"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button data-desc="new label" routerLink="/create-label" ><ion-icon name="bookmarks"></ion-icon></ion-fab-button>
-      <ion-fab-button data-desc="new set" routerLink="/create-set" ><ion-icon name="albums" ></ion-icon></ion-fab-button>
+      <ion-fab-button data-desc="New Tag" routerLink="/create-label" ><ion-icon name="bookmarks"></ion-icon></ion-fab-button>
+      <ion-fab-button data-desc="New Set" routerLink="/create-set" ><ion-icon name="albums" ></ion-icon></ion-fab-button>
+      <ion-fab-button data-desc="About" routerLink="/about" ><ion-icon name="information"></ion-icon></ion-fab-button>
     </ion-fab-list>
   </ion-fab>
 </ion-content>

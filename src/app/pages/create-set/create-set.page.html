@@ -13,15 +13,15 @@
     <ion-input [(ngModel)]="setTitle" #autofocus></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label>Choose labels</ion-label>
-    <ion-select multiple="true" cancelText="Dismiss" okText="Done" [(ngModel)]="labels">
-      <ion-select-option  *ngFor="let label of database.labels" [value]="label">{{ label }}</ion-select-option>
+    <ion-label>Choose tags</ion-label>
+    <ion-select multiple="true" cancelText="Clear" okText="Done" [(ngModel)]="labels" (ionCancel)="labels=null">
+      <ion-select-option  *ngFor="let label of database.labels" [value]="label" >{{ label }}</ion-select-option>
+      <ion-select-option *ngIf="database.labels.length==0" [disabled]="true">No tags available</ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-button expand="block" (click)="showLabels()">log selected labels</ion-button>
-  <ion-button expand="block" routerLink="/create-label">create label</ion-button>
+  <ion-button expand="block" routerLink="/create-label">create tag</ion-button>
 </ion-content>
 
 <ion-footer class="ion-no-border">
-  <ion-button expand="full" (click)="createCards()">create cards</ion-button>
+  <ion-button expand="full" (click)="createCards()">create set</ion-button>
 </ion-footer>

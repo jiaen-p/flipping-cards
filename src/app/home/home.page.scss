@@ -55,3 +55,21 @@ ion-icon{
 ion-card-title{
   width: 80%;
 }
+.searchbox{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.filterBtn{
+  --ripple-color: transparent;
+}
+
+ion-select::part(icon) {
+  display: none !important;
+}
+
+
+ion-select::part(text) {
+  display: none !important;
+}

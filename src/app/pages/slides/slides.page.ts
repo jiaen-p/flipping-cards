@@ -4,6 +4,7 @@ import { SqliteServiceService } from 'src/app/shared/sqlite-service.service';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen/ngx'
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx'
 import { IonSlides } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-slides',
   templateUrl: './slides.page.html',
@@ -14,12 +15,18 @@ import { IonSlides } from '@ionic/angular';
 export class SlidesPage implements OnInit {
   public flip:boolean = false
   public progress: number = 0
-  constructor(protected database:SqliteServiceService, private fullScreen:AndroidFullScreen, private orientation:ScreenOrientation) { }
+  constructor(protected database:SqliteServiceService, private fullScreen:AndroidFullScreen, private orientation:ScreenOrientation, private route:ActivatedRoute) { }
   
   @ViewChild(IonSlides) slides: IonSlides;
   ngOnInit() {
   }
   
+  ionViewDidEnter(){
+    this.route.queryParams.subscribe(params => {
+      this.slides.slideTo(params['startAt'])
+    })
+  }
+
   ionViewWillEnter(){
     this.orientation.unlock()
     this.orientation.lock(this.orientation.ORIENTATIONS.LANDSCAPE)
@@ -28,11 +35,11 @@ export class SlidesPage implements OnInit {
 
   ionViewWillLeave(){
     this.orientation.unlock()
-    this.fullScreen.showSystemUI().catch(e => console.log(e))
+    this.fullScreen.showUnderStatusBar().catch(e => console.log(e))
   }
 
   shuffleSet(){
-    console.log("click")
+    this.flip = false
     for(let i = this.database.viewSet.length - 1; i > 0; i--){
       const j = Math.floor(Math.random() * i)
       const temp = this.database.viewSet[i]

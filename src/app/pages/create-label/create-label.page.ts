@@ -22,7 +22,6 @@ export class CreateLabelPage implements OnInit {
     let newLabel = this.label.trim().split(',')
     
     newLabel.forEach(label => {
-      console.log("add to array:",!this.database.labels.includes(label.trim()))
       if(!this.database.labels.includes(label.trim())){
         this.database.labels.push(label.trim())
       }
@@ -30,7 +29,6 @@ export class CreateLabelPage implements OnInit {
     this.database.updateLabels().then(r => {
       this.getLabels()
       this.label = null
-      // this.input.setFocus()
     })
 
   }

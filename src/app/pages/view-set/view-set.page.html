@@ -10,8 +10,8 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-      <ion-col size="6" *ngFor="let card of database.viewSet">
-        <ion-card>
+      <ion-col size="6" *ngFor="let card of database.viewSet; let i = index">
+        <ion-card (click)="startCards(i)">
           <ion-card-header>
             <ion-card-title>{{ card.sideA }}</ion-card-title>
           </ion-card-header>

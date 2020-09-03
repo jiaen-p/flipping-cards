@@ -21,6 +21,7 @@
     <ion-label>Choose labels</ion-label>
     <ion-select multiple="true" cancelText="Dismiss" okText="Done" [(ngModel)]="labels">
       <ion-select-option  *ngFor="let label of database.labels" [value]="label">{{ label }}</ion-select-option>
+      <ion-select-option *ngIf="database.labels.length==0" [disabled]="true">No tags available</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-button expand="block" routerLink="/create-label">create label</ion-button>
