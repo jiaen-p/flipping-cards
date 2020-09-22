@@ -3,7 +3,6 @@ import { Sets } from 'src/app/models/sets';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SqliteServiceService } from 'src/app/shared/sqlite-service.service';
 import { IonInput } from '@ionic/angular';
-import { title } from 'process';
 
 @Component({
   selector: 'app-edit-set',
@@ -24,10 +23,8 @@ export class EditSetPage implements OnInit {
     })
   }
 
-  public ionViewWillEnter(){
-    setTimeout(() => {
-      this.input.setFocus()
-    }, 100);
+  public ionViewDidEnter(){
+    this.input.setFocus()
   }
 
   public addCards(){

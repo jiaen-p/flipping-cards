@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content [fullscreen]="true">
   <ion-slides (ionSlideTransitionStart)="changeSlides()">
     <ion-slide *ngFor="let card of database.viewSet" class="card">
       <div class="card-inner" [ngClass]="flip ? 'rotate' : ''">

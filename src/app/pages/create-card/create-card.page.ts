@@ -28,10 +28,10 @@ export class CreateCardPage implements OnInit {
       this.set_id = +params['set_id']
       this.edit = params['edit'] ? true : false
       this.getSet()
-      setTimeout(() => {
-        this.input.setFocus()
-      }, 150);
     })
+  }
+  public ionViewDidEnter(){
+    this.input.setFocus()
   }
   public addCard(){
     if(this.sideA && this.card_id == null){

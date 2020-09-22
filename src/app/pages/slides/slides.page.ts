@@ -35,7 +35,7 @@ export class SlidesPage implements OnInit {
 
   ionViewWillLeave(){
     this.orientation.unlock()
-    this.fullScreen.showUnderStatusBar().catch(e => console.log(e))
+    this.fullScreen.showSystemUI().catch(e => console.log(e))
   }
 
   shuffleSet(){
